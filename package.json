@@ -1,0 +1,17 @@
+{
+  "name": "@dcodermobile/io",
+  "version": "1.0.0",
+  "description": "i/o lib for Dcoder.",
+  "license": "MIT",
+  "repository": "dcodermobile/io",
+  "main": "index.js",
+  "keywords": [
+    "dcoder",
+    "io",
+    "package",
+    "dcodermobile"
+  ],
+  "dependencies": {
+    "fs": "0.0.1-security"
+  }
+}

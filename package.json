@@ -11,6 +11,10 @@
     "package",
     "dcodermobile"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dcodermobile/io.git"
+  },
   "dependencies": {
     "fs": "0.0.1-security"
   }

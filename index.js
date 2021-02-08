@@ -4,22 +4,27 @@ const IO_FILE_PATH = '/usr/src/io.json'
 const setOutput = (key, value) => {
   let data = null
   const blockId = process.env.BLOCK_ID
-  
+
   if (fs.existsSync(IO_FILE_PATH)) {
     data = fs.readFileSync(IO_FILE_PATH, { encoding: 'utf8' })
     data = JSON.parse(data)
-    if (!data[blockId]) {
-      data[blockId] = {}
+    if (!data.steps) {
+      data.steps = {}
     }
-    if(!data[blockId]['outputs']){
-      data[blockId]['outputs'] = {}
+    if (!data.steps[blockId]) {
+      data.steps[blockId] = {}
     }
-    data[blockId]['outputs'][key] = value
+    if (!data.steps[blockId]['outputs']) {
+      data.steps[blockId]['outputs'] = {}
+    }
+    data.steps[blockId]['outputs'][key] = value
   } else {
     data = {
-      [blockId]: {
-        ['outputs']: {
-          [key]: value
+      steps: {
+        [blockId]: {
+          ['outputs']: {
+            [key]: value
+          }
         }
       }
     }
@@ -34,12 +39,15 @@ const getInput = (key) => {
   if (fs.existsSync(IO_FILE_PATH)) {
     data = fs.readFileSync(IO_FILE_PATH, { encoding: 'utf8' })
     data = JSON.parse(data)
-    if (!data[blockId]) {
+    if (!data.steps) {
+      throw new Error('Data not exists')
+    }
+    if (!data.steps[blockId]) {
       throw new Error('Data not exists')
     }
 
-    if (data[blockId]['inputs'] && data[blockId]['inputs'][key]) {
-      return data[blockId]['inputs'][key]
+    if (data.steps[blockId].inputs && (key in data.steps[blockId].inputs)) {
+      return data.steps[blockId].inputs[key]
     } else {
       throw new Error('Data not exists')
     }
@@ -49,7 +57,7 @@ const getInput = (key) => {
 }
 
 
-const logFile = () =>{
+const logFile = () => {
   console.log(fs.readFileSync(IO_FILE_PATH, { encoding: 'utf8' }))
 }
 
@@ -59,5 +67,3 @@ module.exports = {
   setOutput,
   logFile
 }
-
-

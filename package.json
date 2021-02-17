@@ -1,6 +1,6 @@
 {
   "name": "@dcodermobile/io",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "i/o lib for Dcoder.",
   "license": "MIT",
   "main": "index.js",

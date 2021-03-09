@@ -96,6 +96,9 @@ const setFailed = (message) => {
   process.exitCode = 1
 }
 
+const warning = (message) => {
+  console.warn(message)
+}
 
 const logFile = () => {
   console.log(fs.readFileSync(IO_FILE_PATH, { encoding: 'utf8' }))
@@ -108,5 +111,6 @@ module.exports = {
   getAuthToken,
   getSecret,
   setFailed,
+  warning,
   logFile
 }

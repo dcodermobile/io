@@ -40,19 +40,27 @@ const getInput = (key) => {
     data = fs.readFileSync(IO_FILE_PATH, { encoding: 'utf8' })
     data = JSON.parse(data)
     if (!data.steps) {
-      throw new Error('Data not exists')
+      // throw new Error('Data not exists')
+      // TODO: Fix this based on required and type of variable later.
+      return ''
     }
     if (!data.steps[blockId]) {
-      throw new Error('Data not exists')
+      // throw new Error('Data not exists')
+      // TODO: Fix this based on required and type of variable later.
+      return ''
     }
 
     if (data.steps[blockId].inputs && (key in data.steps[blockId].inputs)) {
       return data.steps[blockId].inputs[key]
     } else {
-      throw new Error('Data not exists')
+      // throw new Error('Data not exists')
+      // TODO: Fix this based on required and type of variable later.
+      return ''
     }
   } else {
-    throw new Error('Data not exists')
+    // throw new Error('Data not exists')
+    // TODO: Fix this based on required and type of variable later.
+    return ''
   }
 }
 
@@ -63,23 +71,23 @@ const getAuthToken = (key) => {
     data = fs.readFileSync(IO_FILE_PATH, { encoding: 'utf8' })
     data = JSON.parse(data)
     if (!data.steps) {
-      throw new Error('Data not exists')
+      throw new Error('Your account is not authenticated or linked.')
     }
     if (!data.steps[blockId]) {
-      throw new Error('Data not exists')
+      throw new Error('Your account is not authenticated or linked.')
     }
 
     if (!data.steps[blockId].auths) {
-      throw new Error('Data not exists')
+      throw new Error('Your account is not authenticated or linked.')
     }
 
     if (data.steps[blockId].auths[key] && ('ACCESS_TOKEN' in data.steps[blockId].auths[key])) {
       return data.steps[blockId].auths[key].ACCESS_TOKEN
     } else {
-      throw new Error('Data not exists')
+      throw new Error('Your account is not authenticated or linked.')
     }
   } else {
-    throw new Error('Data not exists')
+    throw new Error('Your account is not authenticated or linked.')
   }
 }
 
@@ -87,7 +95,7 @@ const getSecret = (key) => {
   if (key.toUpperCase() in process.env) {
     return process.env[key.toUpperCase()]
   } else {
-    throw new Error('Data not exists')
+    throw new Error('Secret doesn\'t exist.')
   }
 }
 

@@ -4,7 +4,9 @@ const IO_FILE_PATH = '/usr/src/io.json'
 const setOutput = (key, value) => {
   let data = null
   const blockId = process.env.BLOCK_ID
-
+  if (typeof value !== 'string') {
+    value = JSON.stringify(value)
+  }
   if (fs.existsSync(IO_FILE_PATH)) {
     data = fs.readFileSync(IO_FILE_PATH, { encoding: 'utf8' })
     data = JSON.parse(data)
@@ -36,6 +38,14 @@ const setOutput = (key, value) => {
 const getInput = (key) => {
   const blockId = process.env.BLOCK_ID
   let data = null
+
+  const blockInputs = JSON.parse(process.env.BLOCK_INPUTS || '[]')
+
+  const currentInput = blockInputs.find(input => input.name === key)
+  if (!currentInput) {
+    throw new Error(`Input ${key} not declared in dcoder_block.yml`)
+  }
+
   if (fs.existsSync(IO_FILE_PATH)) {
     data = fs.readFileSync(IO_FILE_PATH, { encoding: 'utf8' })
     data = JSON.parse(data)
@@ -51,7 +61,10 @@ const getInput = (key) => {
     }
 
     if (data.steps[blockId].inputs && (key in data.steps[blockId].inputs)) {
-      return data.steps[blockId].inputs[key]
+      if (data.steps[blockId].inputs[key] && currentInput.type !== 'Text') {
+        return JSON.parse(data.steps[blockId].inputs[key])
+      }
+      return data.steps[blockId].inputs[key] || ''
     } else {
       // throw new Error('Data not exists')
       // TODO: Fix this based on required and type of variable later.
